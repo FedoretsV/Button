@@ -1,42 +1,41 @@
 // Arduino Button Library
-// https://github.com/JChristensen/JC_Button
-// Copyright (C) 2018 by Jack Christensen and licensed under
+// https://github.com/FedoretsV/VF_Button
+// Copyright (C) 2022 by Vitaliy Fedorets and licensed under
 // GNU GPL v3.0, https://www.gnu.org/licenses/gpl.html
 
-#ifndef JC_BUTTON_H_INCLUDED
-#define JC_BUTTON_H_INCLUDED
+#ifndef VF_BUTTON_H_INCLUDED
+#define VF_BUTTON_H_INCLUDED
 
 #include <Arduino.h>
 
 class Button
 {
     public:
-        // Button(pin, dbTime, puEnable, invert) instantiates a button object.
+        // Button(pin, dbTime) создание экземпляра объекта Button
         //
-        // Required parameter:
-        // pin      The Arduino pin the button is connected to
+        // Обязательный параметр:
+        // pin      Arduino pin, к которому подключена кнопка
         //
-        // Optional parameters:
-        // dbTime   Debounce time in milliseconds (default 25ms)
-        // puEnable true to enable the AVR internal pullup resistor (default true)
-        // invert   true to interpret a low logic level as pressed (default true)
-        Button(uint8_t pin, uint32_t dbTime=25, uint8_t puEnable=true, uint8_t invert=true)
-            : m_pin(pin), m_dbTime(dbTime), m_puEnable(puEnable), m_invert(invert) {}
+        // Необязательный параметр:
+        // dbTime   Время задержки для подавления "дребезга", в миллисекундах (default 50ms)
+        
+        Button(uint8_t pin, uint32_t dbTime=50)
+            : m_pin(pin), m_dbTime(dbTime)) {}
 
-        // Initialize a Button object and the pin it's connected to
+        // Инициализация объекта Button и контакт, к которому он подключен.
         void begin();
 
-        // Returns the current debounced button state, true for pressed,
-        // false for released. Call this function frequently to ensure
-        // the sketch is responsive to user input.
+        // Возвращает текущее состояние кнопки с отключенным дребезгом,  
+        // true при нажатии, false при отжатии.  
+        // Функция должна вызываться постоянно.
         bool read();
 
-        // Returns true if the button state was pressed at the last call to read().
-        // Does not cause the button to be read.
+        // Возвращает true, если кнопка была нажата при последнем вызове read().
+        // Не вызывает чтение кнопки.
         bool isPressed();
 
-        // Returns true if the button state was released at the last call to read().
-        // Does not cause the button to be read.
+        // Возвращает true, если кнопка была отжата при последнем вызове read().
+        // Не вызывает чтение кнопки.
         bool isReleased();
 
         // Returns true if the button state at the last call to read() was pressed,
